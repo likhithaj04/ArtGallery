@@ -1,0 +1,26 @@
+
+<% layout('layouts/boilerplate') %>
+
+<h1 class="text-center mt-4 text-white">Art Gallery</h1>
+
+<div class="container">
+  <!-- <form method="GET" action="/listings/new" class="mt-3 ">
+    <button class="btn btn-primary">Add New Art</button>
+  </form> -->
+
+  <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-5 g-6 mt-3 text-white ">
+    <% for (let listings of allListing) { %>
+      <div class="col mb-5">
+        <a href="/listings/<%= listings._id %>" class="text-decoration-none text-dark">
+          <div class="card h-100 shadow-sm">
+            <img src="<%= listings.image.url %>" class="card-img-top" style="height: 18rem; object-fit: cover;">
+            <div class="card-body me-2 ms-2">
+              <h5 class="card-title">Title: <%= listings.title %></h5>
+              <p class="card-text">More Info....</p>
+            </div>
+          </div>
+        </a>
+      </div>
+    <% } %>
+  </div>
+</div>

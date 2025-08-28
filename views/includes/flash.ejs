@@ -1,0 +1,22 @@
+<% if(success && success.length) { %>   
+    <!-- because success is array it will display the empty space at the top .so we are asking if the length of array exists -->
+<div class="alert alert-success alert-dismissible fade show col-6 offset=3" role="alert">
+    <%= success %>
+    <button type="button" 
+    class="btn-close" 
+    data-bs-dismiss="alert" 
+    aria-label="Close"></button>
+</div>
+<% } %>  
+
+<% if(error && error.length) { %>   
+    <!-- because success is array it will display the empty space at the top .so we are asking if the length of array exists -->
+<div class="alert alert-danger alert-dismissible fade show col-6 offset=3" role="alert">
+    <%= error %>
+    <button type="button" 
+    class="btn-close" 
+    data-bs-dismiss="alert" 
+    aria-label="Close"></button>
+</div>
+<% } %> 
+ 
