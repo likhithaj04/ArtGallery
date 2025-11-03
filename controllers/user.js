@@ -1,14 +1,7 @@
 const User=require('../routes/user')
-const router=require('express-router')
-const express=require('express');
-const passport=require('passport');
-const session=require('express-session');
-const LocalStrategy =require('passport-local');
-const flash=require('connect-flash');
 
-
-module.exports.rendeSignup=(req,res)=>{
-    res.render("./user/sign.ejs");
+module.exports.renderSignup=(req,res)=>{
+    res.render('user/sign.ejs');
 };
 
 
@@ -32,7 +25,7 @@ module.exports.signup=async(req,res)=>{
     })
 }catch(e){
     req.flash("error",e.message);
-    res.redirect("/signup");
+    res.redirect("/sign");
 } 
 };
 

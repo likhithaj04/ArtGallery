@@ -6,11 +6,11 @@ const router=express.Router();
 
 const userController=require('../controllers/user')
 
-router.get("/sign",userController.rendeSignup)
+router.get("/sign",userController.renderSignup)
 
 
 
-router.post("/signup",userController.signup);
+router.post("/sign",userController.signup);
 
 router.get("/login",userController.renderLogin);
 

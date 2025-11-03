@@ -12,18 +12,8 @@ const session=require('express-session');
 const LocalStrategy =require('passport-local');
 const flash=require('connect-flash');
 const User=require('./models/user');
-// const Listing=require('./models/listing')
 const methodOverride=require('method-override');
 
-
-
-// const ExpressError=require('./utils/ExpressError');
-// const wrapAsync=require('./utils/wrapAsync');
-// const{validateListing}=require('./middleware');
-// const{validateReview}=require('./middleware');
-
-// const Review=require('./models/reviews');
-// const {isLoggedin}=require('./middleware');
 
 const listingRouter=require('./routes/listing');
 const reviewRouter=require('./routes/review');
