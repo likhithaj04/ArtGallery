@@ -3,8 +3,12 @@ const passport=require('passport');
 const { saveRedirectUrl } = require("../middleware");
 
 const router=express.Router();
-
+const listingController=require('../controllers/listing')
 const userController=require('../controllers/user')
+
+router.get("/", (req, res) => {
+  res.redirect("/listings");
+});
 
 router.get("/sign",userController.renderSignup)
 
