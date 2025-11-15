@@ -4,7 +4,8 @@ const { saveRedirectUrl } = require("../middleware");
 
 const router=express.Router();
 const listingController=require('../controllers/listing')
-const userController=require('../controllers/user')
+const userController=require('../controllers/user');
+const wrapAsync = require('../utils/wrapAsync');
 
 router.get("/", (req, res) => {
   res.redirect("/listings");
@@ -14,7 +15,7 @@ router.get("/sign",userController.renderSignup)
 
 
 
-router.post("/sign",userController.signup);
+router.post("/sign",wrapAsync(userController.signup));
 
 router.get("/login",userController.renderLogin);
 

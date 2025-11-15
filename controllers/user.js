@@ -1,33 +1,39 @@
-const User=require('../routes/user')
+const User=require('../models/user')
 
 module.exports.renderSignup=(req,res)=>{
     res.render('user/sign.ejs');
 };
 
 
-module.exports.signup=async(req,res)=>{
-    try{ 
-    let {username,email,password}= req.body;
-    const newUser= new User({email,username});
-    let registeredUser= await User.register(newUser,password);
-    // if(registeredUser){
-    //     req.flash("success","Signed up");
-    // }
-    // console.log(registeredUser);
-    req.login(registeredUser,(err)=>{
-        if(err){
-            console.log(err);
-            return next(err);
-        }
-        req.flash("success","Welcome to Art Page");
-         res.render('listing/index.ejs');
+    module.exports.signup=async(req,res)=>{
 
-    })
-}catch(e){
-    req.flash("error",e.message);
-    res.redirect("/sign");
-} 
-};
+        console.log("SIGNUP ROUTE HIT!!!");
+
+        try{ 
+        let {username,email,password}= req.body;
+        const newUser= new User({email,username});
+        console.log(newUser)
+        const registeredUser= await User.register(newUser,password);
+        // if(registeredUser){
+        //     req.flash("success","Signed up");
+        // }
+        // console.log(registeredUser);
+        req.login(registeredUser,(err)=>{
+            if(err){
+                console.log(err);
+                return next(err);
+            }
+            req.flash("success","Welcome to Art Page");
+        res.redirect("/listings");
+
+        })
+    }catch(e){
+            console.error("Signup error:", e);
+
+        req.flash("error",e.message);
+        res.redirect("/sign");
+    } 
+    };
 
 module.exports.renderLogin=(req,res)=>{
     res.render("user/login.ejs");

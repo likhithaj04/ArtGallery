@@ -1,7 +1,10 @@
-if (process.removeListener.NODE_ENV != "production"){
-require('dotenv').config();
+// if (process.removeListener.NODE_ENV != "production"){
+// require('dotenv').config();
+// }
+ if (process.env.NODE_ENV !== "production") {
+  require('dotenv').config();
 }
- 
+
 const express=require('express');
 const mongoose=require('mongoose');
 const app=express();
@@ -19,7 +22,6 @@ const listingRouter=require('./routes/listing');
 const reviewRouter=require('./routes/review');
 const userRouter=require('./routes/user');
 
-const MONGO_URL="mongodb://127.0.0.1:27017/demo";
 
 app.set("views",path.join(__dirname,"views"));
 app.use(express.static(path.join(__dirname,"public")));
@@ -28,16 +30,16 @@ app.set("view engine","ejs");
 app.engine("ejs",ejsMate);
 app.use(express.urlencoded({extended:true}));   
 
-main().then(()=>{ 
- console.log("Success")
-})
-.catch((err)=>
-    console.log(err)
-);
+const PORT = process.env.PORT || 8080
+const url = process.env.MONGO_URL;
 
-async function main(){  
-    await mongoose.connect(MONGO_URL);
-}
+
+app.listen(PORT, () => {
+  console.log("Port listening");
+  mongoose.connect(url);
+  console.log("db connected")
+})
+
 
 const sessionOptions={
     secret:"SecretString",
@@ -70,103 +72,9 @@ app.use((req,res,next)=>{
 });
 
 
-
-
 app.use("/listings",listingRouter);
 app.use("/listings/:id/reviews",reviewRouter);
 app.use("/",userRouter);
-
-
-
-
-// app.get("/listings",wrapAsync(async(req,res)=>{
-//     const allListing=await Listing.find({});
-//     res.render("./listing/index.ejs",{allListing});
-// }));
-
-// app.get("/listings/new",(req,res)=>{
-//     res.render("./listing/new.ejs");
-// });
-
-
-
-
-// app.post("/listings",wrapAsync(async(req,res)=>{
-//     const newlistings= new Listing(req.body.listing);
-//     let savedListing=await newlistings.save();
-//     console.log(savedListing);
-//     req.flash("success","Art Info Created")
-//     res.redirect("/listings")
-// }));
-
-// app.get("/listings/:id",wrapAsync(async(req,res)=>{
-//     let {id}= req.params;
-//     const listing=await Listing.findById(id).populate(
-//         {
-//         path:"reviews",
-       
-//         populate:{
-//             path:"author"
-//         }
-// });
-//     if(! listing){
-//         req.flash("error","Listing dosennt exists");
-//         return res.redirect('/listings');
-//     }
-//     res.render("listing/show.ejs",{listing})
-// }));
-
-// app.get("/sign",)
-
-// app.post('/signup',);
-
-// app.get("/login",)
-
-// app.post("/login",(req,res)=>{
-//     passport.authenticate("local",{failureRedirect:'/login',failureFlash:true})
-//     req.flash("success","You have successfully logged in ")
-//     res.redirect('/listings');
-// });
-
-// app.get("/listings/:id/edit",wrapAsync(async(req,res)=>{
-//     let {id}= req.params;
-//     const listing=await Listing.findById(id);
-//     res.render("listing/edit.ejs",{listing});
-// }));
-
-// app.put("/listings/:id",validateListing,wrapAsync(async(req,res)=>{
-//     let {id}=req.params;
-//     let listing=await Listing.findByIdAndUpdate(id,{...req.body.listings},{new:true});
-//     // console.log(listing);
-//     await listing.save();
-//     req.flash("success","New Art Info Edited");
-//     res.redirect(`/listings/${id}`);
-// }));;
-
-// app.delete("/listings/:id",wrapAsync(async(req,res)=>{
-//     let {id}=req.params;
-//     let deletedListing= await Listing.findByIdAndDelete(id);
-//     console.log(deletedListing);
-//     req.flash("sucess","Art Info Deleted");
-//     res.redirect('/listings')
-// }));
-
-// app.post("/listings/:id/reviews",async(req,res)=>{
-//     let listing=await Listing.findById(req.params.id);
-//     let newReview=new Review(req.body.review);
-//     listing.reviews.push(newReview);
-//     console.log(newReview);
-//     await newReview.save();
-//     await listing.save();
-//     res.redirect(`/listings/${listing._id}`);
-// });
-
-// app.delete("/listings/:id/reviews/:reviewId",async(req,res)=>{
-//     let {id,reviewId}=req.params;
-//     await Listing.findByIdAndUpdate(id,{$pull:{reviews:reviewId}});
-//     await Review.findByIdAndDelete(reviewId);
-//     res.redirect(`/listings/${id}`);
-// });
 
 
 app.use((err,req,res,next)=>{
@@ -174,6 +82,3 @@ app.use((err,req,res,next)=>{
     res.render("error.ejs",{message});
 })
 
-app.listen(8080,()=>{
-    console.log("Server started");
-})
